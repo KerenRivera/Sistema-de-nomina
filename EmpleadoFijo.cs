@@ -3,7 +3,7 @@
 
 namespace Sistema_de_nómina
 {
-    public sealed class EmpleadoFijo : Empleado
+    public class EmpleadoFijo : Empleado
     {
         public override decimal CalcularSueldo()
         {
