@@ -8,9 +8,9 @@ namespace Sistema_de_nómina
 {
     public abstract class Empleado
     {
-        public string PrimerNombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string SeguroSocial { get; set; }
+        public string? PrimerNombre { get; set; }
+        public string? ApellidoPaterno { get; set; }
+        public string? SeguroSocial { get; set; }
 
         public decimal Salario { get; set; }
 
