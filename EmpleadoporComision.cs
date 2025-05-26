@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_nómina
 {
-    public class EmpleadoporComisión : Empleado 
+    public class EmpleadoporComision : Empleado 
     {
         public decimal VentasBrutas { get; set; }
         public decimal Comisión { get; set; }
