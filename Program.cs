@@ -18,7 +18,7 @@ namespace Sistema_de_nómina
             Console.WriteLine("Bienvenido al Sistema de nómina\n");
 
             Console.WriteLine("¿Le gustaria cargar empleados de prueba? (S/N)");
-            string answer = Console.ReadLine().Trim().ToLower();
+            string? answer = Console.ReadLine()?.Trim().ToLower();
 
             if ((answer == "s" || answer == "si") && !empleadosdePrueba)
             {
@@ -29,18 +29,18 @@ namespace Sistema_de_nómina
                 Console.ReadKey();
 
             }
-            
+
             Menu();
         }
 
 
-         static void Menu()
-       {
+        static void Menu()
+        {
             bool exit = false;
 
             do
             {
-  
+
                 Console.WriteLine("¿Qué desea hacer?\n");
                 Console.WriteLine("1. Mostrar empleados");
                 Console.WriteLine("2. Añadir empleado Fijo");
@@ -74,7 +74,7 @@ namespace Sistema_de_nómina
                     continue;
                 }
 
-                    switch (userOption)
+                switch (userOption)
                 {
                     case 1:
 
@@ -128,9 +128,9 @@ namespace Sistema_de_nómina
                 }
             } while (!exit);
 
-       }
+        }
 
-         public static void AddPermanentEmployee()
+        public static void AddPermanentEmployee()
         {
 
             Console.Clear();
@@ -171,9 +171,9 @@ namespace Sistema_de_nómina
         }
 
 
-         public static void AddpermanentAndCommissionEmployee()
-         {
-            
+        public static void AddpermanentAndCommissionEmployee()
+        {
+
             Console.Clear();
             Console.WriteLine("Nombre:");
             string? nombre = Console.ReadLine();
@@ -199,10 +199,10 @@ namespace Sistema_de_nómina
             empleados.Add(empleadoComision);
             Console.WriteLine("Empleado Fijo y por comisión añadido correctamente.");
 
-         }
+        }
 
-         public static void AddCommissionEmployee()
-         {
+        public static void AddCommissionEmployee()
+        {
 
             Console.Clear();
             Console.WriteLine("Nombre:");
@@ -226,10 +226,10 @@ namespace Sistema_de_nómina
             empleados.Add(empleadoComision);
             Console.WriteLine("Empleado por comisión añadido correctamente.");
 
-         }
+        }
 
-         public static void AddHourlyEmployee()
-         {
+        public static void AddHourlyEmployee()
+        {
 
             Console.Clear();
             Console.WriteLine("Nombre:");
@@ -254,77 +254,101 @@ namespace Sistema_de_nómina
             empleados.Add(empleadoPorHoras);
             Console.WriteLine("Empleado por horas añadido correctamente.");
 
-         }
+        }
 
-         public static void ShowPayment()
-         {
+        public static void ShowPayment()
+        {
 
             Console.Clear();
             Console.WriteLine("Calculando pago...");
             foreach (var empleado in empleados)
             {
                 decimal sueldo = empleado.CalcularSueldo();
-                Console.WriteLine($"Empleado: {empleado.PrimerNombre} {empleado.ApellidoPaterno}, Salario: {sueldo:C}");
+                Console.WriteLine($"Empleado: {empleado.PrimerNombre} {empleado.ApellidoPaterno}, Salario mensual: {sueldo:C}");
             }
 
-         }
+        }
 
-         public static void UpdateEmployeeData()
-         {
+        public static void UpdateEmployeeData()
+        {
 
             Console.Clear();
             Console.WriteLine("Numero de seguro social del empleado:");
-            string seguroSocial = Console.ReadLine();
-            Empleado empleado = empleados.FirstOrDefault(e => e.SeguroSocial == seguroSocial);
+            string? seguroSocial = Console.ReadLine();
+            Empleado? empleado = empleados.FirstOrDefault(e => e.SeguroSocial == seguroSocial);
 
             if (empleado != null)
             {
                 Console.WriteLine("Ingrese el nuevo nombre (Presione 'enter' si no necesita modificar este campo):");
-                empleado.PrimerNombre = Console.ReadLine();
+                string? nuevoNombre = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(nuevoNombre))
+                empleado.PrimerNombre = nuevoNombre;
 
                 Console.WriteLine("Ingrese el nuevo apellido (Presione 'enter' si no necesita modificar este campo):");
-                empleado.ApellidoPaterno = Console.ReadLine();
+                string? nuevoApellido = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(nuevoApellido))
+                    empleado.ApellidoPaterno = nuevoApellido;
 
                 if (empleado is EmpleadoFijo empleadoFijo)
                 {
                     Console.WriteLine("Ingrese el nuevo salario (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoFijo.Salario = Convert.ToDecimal(Console.ReadLine());
+                    string? input = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace (input))
+                    {
+                        return;
+                    }
+
+                    if (!decimal.TryParse(input, out decimal nuevoSalario))
+                    {
+                        Console.WriteLine("Por favor, ingrese un número válido para el salario.");
+                        return;
+                    }
+                 
                 }
                 else if (empleado is EmpleadoComision empleadoComision)
                 {
                     Console.WriteLine("Ingrese el nuevo salario base (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoComision.Salario = Convert.ToDecimal(Console.ReadLine());
+                    string? input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevoSalario))
+                        empleadoComision.Salario = nuevoSalario;
 
                     Console.WriteLine("Ingrese las nuevas ventas brutas (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoComision.VentasBrutas = Convert.ToDecimal(Console.ReadLine());
+                    input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevasVentasBrutas))
+                        empleadoComision.VentasBrutas = nuevasVentasBrutas;
 
                     Console.WriteLine("Ingrese la nueva comisión (porcentaje) (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoComision.Comisión = Convert.ToDecimal(Console.ReadLine()) / 100;
+                    input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevaComision))
+                        empleadoComision.Comisión = nuevaComision / 100;
                 }
                 else if (empleado is EmpleadoporComisión empleadoPorComision)
                 {
                     Console.WriteLine("Ingrese las nuevas ventas brutas (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoPorComision.VentasBrutas = Convert.ToDecimal(Console.ReadLine());
+                    string? input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevasventasBrutas))
+
+                        empleadoPorComision.VentasBrutas = nuevasventasBrutas;
 
                     Console.WriteLine("Ingrese la nueva comisión (porcentaje) (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoPorComision.Comisión = Convert.ToDecimal(Console.ReadLine()) / 100;
+                    input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevaComision))
+                        empleadoPorComision.Comisión = nuevaComision / 100;
                 }
                 else if (empleado is EmpleadoPorHora empleadoPorHora)
                 {
                     Console.WriteLine("Ingrese las nuevas horas trabajadas (Presione 'enter' si no necesita modificar este campo):");
-
-                    try
-                    {
-                        empleadoPorHora.HorasTrabajadas = Convert.ToDecimal(Console.ReadLine());
-                    }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Por favor, ingrese un número válido para las horas trabajadas.");
-                        return;
-                    }
+                    string? input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevasHoras))
+                  
+                      empleadoPorHora.HorasTrabajadas = nuevasHoras;
+                    
 
                     Console.WriteLine("Ingrese la nueva tarifa por hora (Presione 'enter' si no necesita modificar este campo):");
-                    empleadoPorHora.Salario = Convert.ToDecimal(Console.ReadLine());
+                    input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal nuevaTarifa))
+                    empleadoPorHora.Salario = nuevaTarifa;
 
                 }
             }
@@ -333,25 +357,57 @@ namespace Sistema_de_nómina
                 Console.WriteLine("Empleado no encontrado.");
             }
             Console.WriteLine("Datos del empleado actualizados correctamente.");
+            Console.ReadKey();
 
-         }
+        }
 
-         public static void WeeklyReport()
-         {
+        public static void WeeklyReport()
+        {
 
             Console.Clear();
             ShowPayment();
-            Console.WriteLine("Generando reporte semanal de nómina.");
+            Console.WriteLine("REPORTE SEMANAL DE NOMINA");
+
+            decimal totalNomina = 0;
 
             foreach (var empleado in empleados)
             {
                 decimal sueldo = empleado.CalcularSueldo();
-                Console.WriteLine($"Empleado: {empleado.PrimerNombre} {empleado.ApellidoPaterno}, Sueldo: {sueldo:C}");
+                totalNomina += sueldo;
 
+                Console.WriteLine("-----------------------------------------------");
+                Console.WriteLine($"Empleado: {empleado.PrimerNombre} {empleado.ApellidoPaterno}");
+                Console.WriteLine("Seguro social: {empleado.SeguroSocial}");
+                Console.WriteLine("Tipo: {empleado.GetType().Name}");
+                Console.WriteLine("Salario semanal: {sueldo:C}, ");
+
+                switch (empleado)
+                {
+                    case EmpleadoFijo fijo:
+                        Console.WriteLine("Salario base: {fijo.Salario:C}");
+                        break;
+                    case EmpleadoComision mixto:
+                        Console.WriteLine("Salario base: {mixto.Salario:C}");
+                        Console.WriteLine("Ventas brutas: {mixto.VentasBrutas:C}");
+                        Console.WriteLine("Comisión: {mixto.Comisión:P}");
+                        break;
+                    case EmpleadoporComisión comision:
+                        Console.WriteLine("Ventas brutas: {comision.VentasBrutas:C}");
+                        Console.WriteLine("Comisión: {comision.Comisión:P}");
+                        break;
+                    case EmpleadoPorHora horas:
+                        Console.WriteLine("Horas trabajadas: {horas.HorasTrabajadas}");
+                        Console.WriteLine("Tarifa por hora: {horas.Salario:C}");
+                        break;
+                }
+
+                Console.WriteLine("-----------------------------------------------");
             }
-         }
 
-         public static void EmployeeList()
+            Console.WriteLine($"Total de nómina semanal: {totalNomina:C}");
+        }
+
+        public static void EmployeeList()
         {
             Console.Clear();
 
@@ -366,7 +422,7 @@ namespace Sistema_de_nómina
             Console.WriteLine("Empleados Fijos:");
 
             foreach (var e in empleados.Where(e => e is EmpleadoFijo))
-            {   
+            {
                 Console.WriteLine($"Nombre: {e.PrimerNombre}, Apellido: {e.ApellidoPaterno}");
 
             }
@@ -394,65 +450,49 @@ namespace Sistema_de_nómina
                 Console.WriteLine($"Nombre: {e.PrimerNombre}, Apellido: {e.ApellidoPaterno}");
 
             }
-           
-           
+
+
         }
 
-         public static void InicializeEmployees()
+        public static void InicializeEmployees()
         {
-            for (int i = 1; i < 20; i++)
+
+            empleados.Add(new EmpleadoFijo
             {
-                string nombre = $"Nombre{i}";
-                string apellido = $"Apellido{i}";
-                string seguroSocial = $"SSN{i:D4}";
+                PrimerNombre = "Keren",
+                ApellidoPaterno = "Rivera",
+                SeguroSocial = "121-222-34",
+                Salario = 7000
+            });
 
-                switch (i % 4)
-                {
-                    case 0:
-                        empleados.Add(new EmpleadoFijo
-                        {
-                            PrimerNombre = nombre,
-                            ApellidoPaterno = apellido,
-                            SeguroSocial = seguroSocial,
-                            Salario = 700 + (i * 5)
-                        });
-                        break;
-                    case 1:
-                        empleados.Add(new EmpleadoComision
-                        {
-                            PrimerNombre = nombre,
-                            ApellidoPaterno = apellido,
-                            SeguroSocial = seguroSocial,
-                            Salario = 3000 + (i * 3),
-                            VentasBrutas = 1000 + (i * 10),
-                            Comisión = 0.05m 
-                        });
-                        break;
-                    case 2:
-                        empleados.Add(new EmpleadoporComisión
-                        {
-                            PrimerNombre = nombre,
-                            ApellidoPaterno = apellido,
-                            SeguroSocial = seguroSocial,
-                            VentasBrutas = 1500 + (i * 40),
-                            Comisión = 0.07m
-                        });
-                        break;
-                    case 3:
-                        empleados.Add(new EmpleadoPorHora
-                        {
-                            PrimerNombre = nombre,
-                            ApellidoPaterno = apellido,
-                            SeguroSocial = seguroSocial,
-                            HorasTrabajadas = 40 + (i % 10),
-                            Salario = 20 + (i % 5)
-                        });
-                        break;
-                }
-            }
+            empleados.Add(new EmpleadoComision
+            {
+                PrimerNombre = "Mario",
+                ApellidoPaterno = "Guzmán",
+                SeguroSocial = "44-44-222",
+                Salario = 3000,
+                VentasBrutas = 10000,
+                Comisión = 0.05m
+            });
+
+            empleados.Add(new EmpleadoporComisión
+            {
+                PrimerNombre = "Rose",
+                ApellidoPaterno = "Vicini",
+                SeguroSocial = "333-222-11",
+                VentasBrutas = 150000,
+                Comisión = 0.07m
+            });
+
+            empleados.Add(new EmpleadoPorHora
+            {
+                PrimerNombre = "Daniela",
+                ApellidoPaterno = "Martinez",
+                SeguroSocial = "209-22-398",
+                HorasTrabajadas = 40,
+                Salario = 3000
+            });
         }
-
-
     }
-
+     
 }
