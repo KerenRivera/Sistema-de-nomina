@@ -165,7 +165,7 @@ namespace Sistema_de_nómina.helper
             decimal ventasBrutas = Convert.ToDecimal(Console.ReadLine());
             Console.WriteLine("Comisión (porcentaje):");
 
-            EmpleadoComision empleadoComision = new()
+            EmpleadoFijoDeComision empleadoComision = new()
             {
                 PrimerNombre = nombre,
                 ApellidoPaterno = apellido,
@@ -300,7 +300,7 @@ namespace Sistema_de_nómina.helper
                      empleadoFijo.Salario = nuevoSalario;
 
                 }
-                else if (empleado is EmpleadoComision empleadoComision)
+                else if (empleado is EmpleadoFijoDeComision empleadoComision)
                 {
                     Console.WriteLine("Ingrese el nuevo salario base (Presione 'enter' si no necesita modificar este campo):");
                     string? input = Console.ReadLine();
@@ -379,7 +379,7 @@ namespace Sistema_de_nómina.helper
                     case EmpleadoFijo fijo:
                         Console.WriteLine($"Salario base: {fijo.Salario:C}");
                         break;
-                    case EmpleadoComision mixto:
+                    case EmpleadoFijoDeComision mixto:
                         Console.WriteLine($"Salario base: {mixto.Salario:C}");
                         Console.WriteLine($"Ventas brutas: {mixto.VentasBrutas:C}");
                         Console.WriteLine($"Comisión: {mixto.Comisión:P}");
@@ -422,7 +422,7 @@ namespace Sistema_de_nómina.helper
 
             Console.WriteLine("\nEmpleados Fijos + comisión:");
 
-            foreach (var e in empleados.Where(e => e is EmpleadoComision))
+            foreach (var e in empleados.Where(e => e is EmpleadoFijoDeComision))
             {
                 Console.WriteLine($"Nombre: {e.PrimerNombre}, Apellido: {e.ApellidoPaterno}");
 
@@ -458,7 +458,7 @@ namespace Sistema_de_nómina.helper
                 Salario = 7000
             });
 
-            empleados.Add(new EmpleadoComision
+            empleados.Add(new EmpleadoFijoDeComision
             {
                 PrimerNombre = "Mario",
                 ApellidoPaterno = "Guzmán",

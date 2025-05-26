@@ -10,9 +10,7 @@ namespace Sistema_de_nómina
     {
         public decimal VentasBrutas { get; set; }
         public decimal Comisión { get; set; }
-        public override decimal CalcularSueldo()
-        {
-            return VentasBrutas * Comisión;
-        }
+        public override decimal CalcularSueldo() => VentasBrutas * Comisión;
+        
     }
 }
