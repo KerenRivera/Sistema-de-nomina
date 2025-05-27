@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sistema_de_nómina
+namespace Sistema_de_nómina.Models
 {
     public class EmpleadoPorHora : Empleado
     {
@@ -22,7 +22,7 @@ namespace Sistema_de_nómina
             }
             else if (HorasTrabajadas > 40)
             {
-                return (Salario * 40) + (Salario * 1.5m * (HorasTrabajadas - 40));
+                return Salario * 40 + Salario * 1.5m * (HorasTrabajadas - 40);
             }
 
             return 0;

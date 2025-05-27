@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sistema_de_nómina
+namespace Sistema_de_nómina.Models
 {
     public abstract class Empleado
     {
@@ -16,9 +16,9 @@ namespace Sistema_de_nómina
 
         public virtual decimal CalcularSueldo()
         {
-            return 0; 
+            return 0;
         }
     }
 }
-    
-    
+
+

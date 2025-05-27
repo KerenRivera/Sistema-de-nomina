@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sistema_de_nómina
+namespace Sistema_de_nómina.Models
 {
     public class EmpleadoFijoDeComision : Empleado //empleado que gana salario base y aparte gana una comision por ventas
     {
         public decimal VentasBrutas { get; set; }
         public decimal Comisión { get; set; }
-        public override decimal CalcularSueldo() => Salario + (VentasBrutas * Comisión);
+        public override decimal CalcularSueldo() => Salario + VentasBrutas * Comisión;
 
-        
+
     }
 
 }
